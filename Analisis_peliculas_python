@@ -1,0 +1,95 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from google.colab import files
+
+load = files.upload()
+
+Peliculas = pd.read_excel('peliculas.xlsx')
+
+Peliculas.head()
+
+Peliculas.info()
+
+Peliculas.describe()
+
+Peliculas.isnull().sum()
+
+#Mejores peliculas por año
+
+Peliculas_año = Peliculas[['title','releaseYear','averageRating']]
+
+Mejores_año = Peliculas_año.loc[Peliculas_año.groupby('releaseYear')['averageRating'].idxmax()]
+
+Mejores_año = Mejores_año.sort_values(by='releaseYear', ascending=False)
+
+print(Mejores_año)
+
+
+Peliculas_año = Peliculas[['title','releaseYear','averageRating']]
+
+Peliculas_año = Peliculas_año[Peliculas_año['releaseYear'] >= 1990]
+                              
+Mejores_año = Peliculas_año.loc[Peliculas_año.groupby('releaseYear')['averageRating'].idxmax()]
+
+Mejores_año = Mejores_año.sort_values(by='releaseYear', ascending=False)
+
+print(Mejores_año)
+                                 
+                                                        
+
+plt.figure(figsize=(10,6))
+sns.barplot(x='releaseYear', y='averageRating', data=Mejores_año, palette='viridis', dodge=False,)
+plt.title('Mejores películas por año desde 1990', fontsize=16)
+plt.xticks(rotation=90)
+plt.xlabel('Año',fontsize=12)
+plt.ylabel('Rating promedio',fontsize=12)
+
+plt.tight_layout()
+plt.show()
+
+calificacion_year = Peliculas[['releaseYear','averageRating']]
+
+calificacion_year = calificacion_year[calificacion_year['releaseYear'] >= 1950]
+
+promedio_calificacion_year  = calificacion_year.groupby('releaseYear').mean().reset_index() #se calcula el promedio
+
+plt.figure(figsize=(20,6))
+sns.lineplot(x='releaseYear', y='averageRating', data=promedio_calificacion_year,marker='o', color='b')
+
+plt.title('Promedio de calificaciones por año desde 1950', fontsize=16)
+plt.xlabel('Año',fontsize=12)
+plt.ylabel('Promedio de calificaciones',fontsize=12)
+
+plt.tight_layout()
+plt.show()
+
+Peliculas.tail()
+
+peliculas_per_year = Peliculas[['releaseYear']]
+
+#contar el numero de peliculas x año
+
+total_movies_year = peliculas_per_year['releaseYear'].value_counts().reset_index()
+
+#renombrar columnas
+
+total_movies_year.columns = ['releaseYear','total_movies_year']
+
+#ordenar por año
+
+total_movies_year = total_movies_year.sort_values(by='releaseYear', ascending=False)
+
+print(total_movies_year)
+
+plt.figure(figsize=(10,6))
+sns.lineplot(x='releaseYear', y='total_movies_year', data=total_movies_year, marker='o', color='b')
+#etiquetas
+plt.title('Número de películas por año', fontsize=16)
+plt.xlabel('Año',fontsize=12)
+plt.ylabel('Número de películas',fontsize=12)
+
+plt.tight_layout()
+plt.show()
