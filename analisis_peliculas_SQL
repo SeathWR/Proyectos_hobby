@@ -1,0 +1,18 @@
+SELECT TOP (1000) [id]
+      ,[title]
+      ,[genres]
+      ,[averageRating]
+      ,[numVotes]
+      ,[releaseYear]
+  FROM [Peliculas].[dbo].[Peliculas$DatosExternos_1]
+
+
+  SELECT title, averageRating, numVotes, releaseYear, genres FROM [Peliculas].[dbo].[Peliculas$DatosExternos_1] WHERE releaseYear= 1973 ORDER BY averageRating DESC
+
+  SELECT title, averageRating, releaseYear FROM [Peliculas].[dbo].[Peliculas$DatosExternos_1]  WHERE releaseYear > 1970 AND releaseYear < 1980 
+
+  SELECT releaseYear, AVG(averageRating) AS promedio_calificacion FROM [Peliculas].[dbo].[Peliculas$DatosExternos_1] GROUP BY releaseYear ORDER BY promedio_calificacion ASC
+
+  SELECT title, averageRating FROM [Peliculas].[dbo].[Peliculas$DatosExternos_1] WHERE releaseYear = 1974
+
+  SELECT title, averageRating, releaseYear FROM [Peliculas].[dbo].[Peliculas$DatosExternos_1] WHERE genres = 'Comedy'
